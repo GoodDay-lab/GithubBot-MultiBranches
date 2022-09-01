@@ -1,5 +1,9 @@
 [global]
+host = 127.0.0.1
+port = 9000
 branch = main
+repository = /home/django/localrepo
+workdirectory = /home/django
 
 [repository]
 url = git@github.com:GoodDay-lab/testing.git
