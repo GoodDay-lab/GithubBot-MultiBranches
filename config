@@ -1,0 +1,12 @@
+[global]
+branch = main
+
+[repository]
+url = git@github.com:GoodDay-lab/testing.git
+name = Pavel Vasilev
+email = pavelvasilev2005@mail.ru
+
+[repository2]
+url = git@github.com:GoodDay-lab/testing2.git
+name = Pavel Vasilev
+email = pavelvasilev2005@mail.ru
