@@ -10,6 +10,11 @@ class Git:
             self.app = self.default_app
         else:
             self.app = app
+    
+    def checkout(self, branch, new=False):
+        cmd = [self.app, "checkout", branch]
+        if (new): cmd.append("-b")
+        self.run_bin(cmd)
 
     def push(self, repo=None, branch=None, force=None):
         cmd = [self.app, "push"]
