@@ -3,7 +3,7 @@ import itertools
 
 def load_defconfig():
     config = {
-            "repository": "/var/localrepository",
+            "repository": "/tmp/repository",
             "host": "127.0.0.1",
             "port": 9000,
             "branch": ""

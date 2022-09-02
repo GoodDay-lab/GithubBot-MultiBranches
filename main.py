@@ -122,10 +122,3 @@ def general():
         finally:
             os.chdir(config_global["workdirectory"])
     return "Error"
-
-
-try:
-    init()
-    app.run(host=config_global['host'], port=config_global['port'])
-finally:
-    close()
