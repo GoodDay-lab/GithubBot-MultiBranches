@@ -64,6 +64,12 @@
         repository = /var/repository
         # Директория, в которой работает скрипт
         workdirectory = /var/repository
+        # Возможные логи
+        error log = /tmp/error.log
+        info log = /tmp/info.log
+        debug log = /tmp/debug.log
+        # Лог веб-сервера (посещение сайта)
+        access log = /tmp/access.log
 
         # Названия секций всех репозиториев должны быть уникальны!
         # На их основе проводится идентификация удалённых репозиториев

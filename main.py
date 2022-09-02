@@ -8,26 +8,53 @@ import os
 import json
 import configparser
 import copy
+import logging
 
 config = configparser.ConfigParser()
 config_global = None
 
+app = Flask(__name__)
 git = Git("/bin/git")
 cmdargs = None
 
 def init():
-    global cmdargs, git, config, config_global
+    global cmdargs, git, config, config_global, app
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="./config")
     args = parser.parse_args()
     cmdargs = args
-  
+    
     # Parsing 'config' file
     config.read(cmdargs.config)
     config_global = copy.deepcopy(config["global"])
     config.remove_section("global")
     config_global = create_config(config_global)
+
+    # Setting loggers
+    loggers_t = ["error", "info", "debug"]
+    levels = {"error": logging.ERROR, 
+              "info": logging.INFO,
+              "debug": logging.DEBUG}
+    formatter = logging.Formatter("[%(asctime)s - %(name)s] %(levelname)s:  %(message)s")
+    for logger_t in loggers_t:
+        if (f"{logger_t} log" in config_global):
+            handler = logging.FileHandler(config_global["%s log" % logger_t])
+            handler.setFormatter(formatter)
+            handler.setLevel(levels[logger_t])
+            mylogger.addHandler(handler)
+
+    # Setting flask logger
+    logger = logging.getLogger("werkzeug")
+    if (f"access log" in config_global):
+        
+        # Clear flask logger handlers
+        logger.handlers = []
+
+        handler = logging.FileHandler(config_global["access log"])
+        handler.setFormatter(formatter)
+        handler.setLevel(logging.INFO)
+        logger.addHandler(handler)
     
     # Creaing local repo
     if os.path.exists(config_global["repository"]):
@@ -75,9 +102,6 @@ def get_repository_config(payload):
         if (conf["url"] == payload["repository"]["%s_url" % protocol]):
             break
     return [remote, conf]
-
-
-app = Flask(__name__)
 
 
 @app.route("/", methods=["POST"])
